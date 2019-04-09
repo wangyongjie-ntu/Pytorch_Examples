@@ -8,7 +8,7 @@ from matplotlib import cm
 import numpy as np
 
 
-EPOCH = 1
+EPOCH = 20
 BATCH_SIZE = 64
 LR = 0.005
 DOWNLOAD_MNIST = False
@@ -77,32 +77,32 @@ plt.ion()
 
 view_data = train_data.train_data[:N_TEST_IMG].view(-1, 28*28).type(torch.FloatTensor) / 255
 
-for epoch in range(N_TEST_IMG):
-
+for epoch in range(EPOCH):
     for step, (x, b_label) in enumerate(train_loader):
         b_x = x.view(-1, 28 * 28)
         b_y = x.view(-1, 28 * 28)
 
         encoded, decoded = autoencoder(b_x)
-
         loss = loss_func(decoded, b_y)
         optimizer.zero_grad()
         loss.backward()
-
         optimizer.step()
 
         if step % 100 == 0:
-
             print("Epoch: ", epoch, " | train loss: %.4f"%loss.data.numpy())
-
             _, decoded_data = autoencoder(view_data)
             for i in range(N_TEST_IMG):
+                a[0][i].clear()
+                a[0][i].imshow(np.reshape(b_y.data.numpy()[i], (28, 28)), cmap = 'gray')
+                a[0][i].set_xticks(())
+                a[0][i].set_yticks(())
                 a[1][i].clear()
                 a[1][i].imshow(np.reshape(decoded_data.data.numpy()[i], (28, 28)), cmap = 'gray')
-                a[1][i].set_xticks(()), a[1][i].set_yticks(())
+                a[1][i].set_xticks(()) 
+                a[1][i].set_yticks(())
 
             plt.draw()
-            plt.pause(0.1)
+            plt.pause(0.01)
 
 
 plt.ioff()
