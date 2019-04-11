@@ -45,14 +45,18 @@ class LSTM(nn.Module):
 
         self.lstm = nn.LSTM(
                 input_size = Input_size,
-                hidden_size = 64,
-                num_layers = 1,
-                batch_first = True,
+                hidden_size = 64, # hidden units
+                num_layers = 1, # number of rnn layer < 2
+                batch_first = True, # input&output will have batch_size as the first dimension
                 )
         self.out = nn.Linear(64, 10)
 
 
     def forward(self, x):
+        # x_shape (batch_size, time_step, input_size)
+        # r_out shape (batch, time_step, hidden_size
+        # h_n shape(n_layers, batch_size, time_step)
+        # h_c shape (n_layers, batch_size, time_step)
         r_out, (h_n, h_c) = self.lstm(x, None)
         out = self.out(r_out[:, -1,:])
         return out
@@ -65,7 +69,7 @@ loss_func = nn.CrossEntropyLoss()
 
 for epoch in range(Epoch):
     for step, (b_x, b_y) in enumerate(train_loader):
-        b_x = b_x.view(-1, 28, 28)
+        b_x = b_x.view(-1, 28, 28) # batch_size, tim_step, input_size
         output = lstm(b_x)
         loss = loss_func(output, b_y)
         optimizer.zero_grad()
