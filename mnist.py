@@ -95,7 +95,6 @@ plt.ion()
 
 for epoch in range(EPOCH):
     for step, (b_x, b_y) in enumerate(train_loader):
-
         output = cnn(b_x)[0]
         loss = loss_func(output, b_y)
         optimizer.zero_grad()
