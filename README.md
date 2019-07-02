@@ -1,6 +1,6 @@
 # Pytorch_Examples
 
-This repo records the usage of Ｐytorch. Most of examples come from Mofan Pytorch tutorial.
+This repo records the usage of Pytorch. Most of examples come from Mofan Pytorch tutorial.
 
 By creating this repo, I aim to grasp the gists and pytorch usages.
 
